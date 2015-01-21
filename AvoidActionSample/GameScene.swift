@@ -17,12 +17,16 @@ class GameScene: SKScene {
         score = 0
         
         // 便宜敵に「End」ボタンを作成。これでゲームを終了して結果シーンに移る仕様にする。
-        let endLabel = SKLabelNode(fontNamed: "Copperplate")
-        endLabel.text = "End"
-        endLabel.fontSize = 48
-        endLabel.position = CGPoint(x: 500, y: 200)
-        endLabel.name = "End"
-        self.addChild(endLabel)
+//        let endLabel = SKLabelNode(fontNamed: "Copperplate")
+//        endLabel.text = "End"
+//        endLabel.fontSize = 48
+//        endLabel.position = CGPoint(x: 500, y: 200)
+//        endLabel.name = "End"
+//        self.addChild(endLabel)
+        let player: SKSpriteNode = PlayerNode()
+        player.position = CGPoint(x: 500, y: 200)
+        player.name = "End"
+        self.addChild(player)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
