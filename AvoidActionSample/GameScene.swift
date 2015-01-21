@@ -9,37 +9,47 @@
 import SpriteKit
 
 class GameScene: SKScene {
+    
+    var score: Int = 0
+    
     override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World!";
-        myLabel.fontSize = 65;
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
         
-        self.addChild(myLabel)
+        score = 0
+        
+        // 便宜敵に「End」ボタンを作成。これでゲームを終了して結果シーンに移る仕様にする。
+        let endLabel = SKLabelNode(fontNamed: "Copperplate")
+        endLabel.text = "End"
+        endLabel.fontSize = 48
+        endLabel.position = CGPoint(x: 500, y: 200)
+        endLabel.name = "End"
+        self.addChild(endLabel)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        /* Called when a touch begins */
         
-        for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
+        let touch: AnyObject! = touches.anyObject()
+        let location = touch.locationInNode(self)
+        let touchedNode = self.nodeAtPoint(location)
+        
+        if touchedNode.name != nil {
+            if touchedNode.name == "End" {
+                
+                // ユーザデフォルトにスコアを格納。
+                let ud = NSUserDefaults.standardUserDefaults()
+                ud.setInteger(score, forKey: "score")
+                
+                // 結果シーンに遷移させる。
+                let newScene = ResultScene(size: self.scene!.size)
+                newScene.scaleMode = SKSceneScaleMode.AspectFill
+                self.view!.presentScene(newScene)
+            }
+        } else {
             
-            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-            
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
-            sprite.position = location
-            
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-            
-            sprite.runAction(SKAction.repeatActionForever(action))
-            
-            self.addChild(sprite)
+            // 「End」以外のエリアをタップした場合は、スコアを「+1」する。
+            score += 1
         }
     }
    
     override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
     }
 }
