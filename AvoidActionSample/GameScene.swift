@@ -50,6 +50,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let playerCategory: UInt32 = 0x1<<0
     let enemyCategory: UInt32 = 0x1<<1
     
+    // 障害物生成ライン本数
+    var enemyLine = 10
+    
 /**
 *   処理定義
 */
@@ -61,9 +64,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         
         // プレーヤーのセット
-        self.player.position = CGPoint(x: 500, y: 200)
-        self.player.name = ObjectName.player.toString()
-        self.addChild(player)
+        addPlayer()
+        
+        // 敵生成
+        var timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "generateEnemy", userInfo: nil, repeats: true)
     }
 
     // タッチ時アクション
@@ -77,26 +81,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var move: SKAction = SKAction.moveToY(y, duration: 1.0)
         self.player.runAction(move)
         
-        
-        addEnemy(CGPointMake(-20, 100), direction: Direction.right.rawValue)
-        
-//        let touchedNode = self.nodeAtPoint(location)
-//        
-//        if touchedNode.name != nil {
-//            if touchedNode.name == "End" {
-//
-//            }
-//        } else {
-//            
-//            // 「End」以外のエリアをタップした場合は、スコアを「+1」する。
-//            score += 1
-//        }
+    }
+    
+    // オブジェクト衝突時
+    func didBeginContact(contact: SKPhysicsContact) {
+        println("Contct!")
+        gameOver()
     }
     
     override func update(currentTime: NSTimeInterval) {
-        if currentTime % 10 == 0 {
-            addEnemy(CGPointMake(-50, 100), direction: Direction.right.rawValue)
-        }
     }
     
     // ゲームオーバー処理
@@ -111,15 +104,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view!.presentScene(newScene)
     }
     
+    // プレイヤーの生成
+    func addPlayer() {
+        self.player.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
+        self.player.name = ObjectName.player.toString()
+        self.player.physicsBody?.categoryBitMask = playerCategory
+        self.player.physicsBody?.contactTestBitMask = enemyCategory
+        var pr: CGFloat = self.player.size.width / 2
+        self.player.physicsBody = SKPhysicsBody(
+            circleOfRadius: pr
+        )
+        self.addChild(player)
+    }
+    
+    // 障害物ランダム生成
+    func generateEnemy() {
+        var randLine: CGFloat = CGFloat(arc4random_uniform(UInt32(enemyLine)))
+        var randDirection: Int = Int(arc4random_uniform(UInt32(2)))
+        addEnemy(self.size.height / CGFloat(enemyLine) * randLine , direction: randDirection)
+    }
+    
     // 障害物の生成
-    func addEnemy(point: CGPoint, direction: Int) {
+    func addEnemy(height: CGFloat, direction: Int) {
         // ゲームオーバー時は生成しない
         if gameStatus != GameStatus.kGameOver.rawValue {
             score++
             
             // ノード生成
             let enemy: EnemyNode = EnemyNode()
-            enemy.position = point
+            enemy.position = CGPointMake(-enemy.size.width, height)
             enemy.speed = EnemyNode.NodeSettings.speed.rawValue
             var pr: CGFloat = enemy.size.width / 2
             enemy.physicsBody = SKPhysicsBody(
@@ -137,7 +150,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if direction == Direction.right.rawValue {
                 move = SKAction.moveToX(moveX, duration: 1.0)
             } else {
-                move = SKAction.moveToX(moveX * -1, duration: 1.0)
+                move = SKAction.moveToX(moveX * -1 + self.size.width, duration: 1.0)
+                enemy.position.x = self.size.width + enemy.size.width
             }
             var action: SKAction = SKAction.sequence([move, SKAction.removeFromParent()])
             enemy.runAction(action)
