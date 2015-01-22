@@ -9,6 +9,10 @@
 import SpriteKit
 
 class PlayerNode: SKSpriteNode {
+    
+    enum NodeSettings: CGFloat {
+        case speed = 70.0
+    }
 
     override init() {
         let texture = SKTexture(imageNamed: "kesaran.png")
