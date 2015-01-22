@@ -11,7 +11,7 @@ import SpriteKit
 class PlayerNode: SKSpriteNode {
     
     enum NodeSettings: CGFloat {
-        case speed = 70.0
+        case speed = 1000.0
     }
 
     override init() {

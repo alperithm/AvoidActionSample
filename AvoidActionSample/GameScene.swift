@@ -53,6 +53,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // 障害物生成ライン本数
     var enemyLine = 10
     
+    // 各インターバル
+    var generateInterval: NSTimeInterval = 1
+    var levelUpInterval: NSTimeInterval = 10
+    
+    // 時間差プロパティ
+    var lastGenerateTime: NSTimeInterval = 0
+    var lastLevelUpTime: NSTimeInterval = 0
+    
+    // ステージレベル
+    var level = 0
+    
 /**
 *   処理定義
 */
@@ -65,9 +76,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // プレーヤーのセット
         addPlayer()
-        
-        // 敵生成
-        var timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "generateEnemy", userInfo: nil, repeats: true)
     }
 
     // タッチ時アクション
@@ -78,7 +86,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         var y: CGFloat = location.y
         var diff: CGFloat = abs(y - self.player.position.y)
-        var move: SKAction = SKAction.moveToY(y, duration: 1.0)
+        var move: SKAction = SKAction.moveToY(y, duration: NSTimeInterval(diff / PlayerNode.NodeSettings.speed.rawValue))
         self.player.runAction(move)
         
     }
@@ -90,6 +98,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(currentTime: NSTimeInterval) {
+        
+        // 敵生成間隔調整
+        if lastGenerateTime + generateInterval < currentTime {
+            generateEnemy()
+            lastGenerateTime = currentTime
+        }
+        
+        // 難易度レベルアップ間隔調整
+        if lastLevelUpTime + levelUpInterval * NSTimeInterval(level) < currentTime {
+            levelUp()
+            lastLevelUpTime = currentTime
+        }
+        
     }
     
     // ゲームオーバー処理
@@ -104,13 +125,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view!.presentScene(newScene)
     }
     
+    // 難易度レベルアップ
+    func levelUp() {
+        generateInterval *= 3/4
+        level++
+        println("Level Up! lv.\(level)")
+    }
+    
+/*
+*   オブジェクト生成
+*/
+    
     // プレイヤーの生成
     func addPlayer() {
         self.player.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         self.player.name = ObjectName.player.toString()
         self.player.physicsBody?.categoryBitMask = playerCategory
         self.player.physicsBody?.contactTestBitMask = enemyCategory
-        var pr: CGFloat = self.player.size.width / 2
+        var pr: CGFloat = self.player.size.width / 4
         self.player.physicsBody = SKPhysicsBody(
             circleOfRadius: pr
         )
@@ -146,14 +178,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             // 障害物の動き
             var moveX: CGFloat = self.size.height
+            var rotate: SKAction
             var move: SKAction
             if direction == Direction.right.rawValue {
+                rotate = SKAction.rotateByAngle(CGFloat(-M_PI * 2), duration: 2.0)
                 move = SKAction.moveToX(moveX, duration: 1.0)
             } else {
+                rotate = SKAction.rotateByAngle(CGFloat(M_PI * 2), duration: 2.0)
                 move = SKAction.moveToX(moveX * -1 + self.size.width, duration: 1.0)
                 enemy.position.x = self.size.width + enemy.size.width
             }
-            var action: SKAction = SKAction.sequence([move, SKAction.removeFromParent()])
+            var action: SKAction = SKAction.sequence([[rotate, move], SKAction.removeFromParent()])
             enemy.runAction(action)
             self.addChild(enemy)
         }

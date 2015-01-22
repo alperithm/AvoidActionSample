@@ -22,7 +22,7 @@ class EnemyNode: SKSpriteNode {
     }
     
     enum NodeSettings: CGFloat {
-        case speed = 0.4
+        case speed = 0.2
     }
     
     override init() {
