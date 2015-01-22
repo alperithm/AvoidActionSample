@@ -11,6 +11,8 @@
 		8F6E7C6A1A6FE80A00A6D073 /* ResultScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6E7C691A6FE80A00A6D073 /* ResultScene.swift */; };
 		8F6E7C6D1A6FEE7B00A6D073 /* PlayerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6E7C6C1A6FEE7B00A6D073 /* PlayerNode.swift */; };
 		8F6E7C701A6FF54000A6D073 /* kesaran.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F6E7C6F1A6FF54000A6D073 /* kesaran.png */; };
+		8FD2353C1A70E71E009F5EAF /* cyber_enemy.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FD2353B1A70E71E009F5EAF /* cyber_enemy.png */; };
+		8FD2353E1A70E7B3009F5EAF /* EnemyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD2353D1A70E7B3009F5EAF /* EnemyNode.swift */; };
 		8FF935791A6FDE7800BDE949 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF935781A6FDE7800BDE949 /* AppDelegate.swift */; };
 		8FF9357B1A6FDE7800BDE949 /* TitleScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8FF9357A1A6FDE7800BDE949 /* TitleScene.sks */; };
 		8FF9357D1A6FDE7800BDE949 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF9357C1A6FDE7800BDE949 /* GameScene.swift */; };
@@ -36,6 +38,8 @@
 		8F6E7C691A6FE80A00A6D073 /* ResultScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultScene.swift; sourceTree = "<group>"; };
 		8F6E7C6C1A6FEE7B00A6D073 /* PlayerNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerNode.swift; sourceTree = "<group>"; };
 		8F6E7C6F1A6FF54000A6D073 /* kesaran.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kesaran.png; sourceTree = "<group>"; };
+		8FD2353B1A70E71E009F5EAF /* cyber_enemy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cyber_enemy.png; sourceTree = "<group>"; };
+		8FD2353D1A70E7B3009F5EAF /* EnemyNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyNode.swift; sourceTree = "<group>"; };
 		8FF935731A6FDE7800BDE949 /* AvoidActionSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AvoidActionSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FF935771A6FDE7800BDE949 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8FF935781A6FDE7800BDE949 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -81,6 +85,7 @@
 		8F6E7C6E1A6FF50000A6D073 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				8FD2353B1A70E71E009F5EAF /* cyber_enemy.png */,
 				8F6E7C6F1A6FF54000A6D073 /* kesaran.png */,
 			);
 			name = image;
@@ -90,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				8F6E7C6C1A6FEE7B00A6D073 /* PlayerNode.swift */,
+				8FD2353D1A70E7B3009F5EAF /* EnemyNode.swift */,
 			);
 			name = Node;
 			sourceTree = "<group>";
@@ -236,6 +242,7 @@
 			files = (
 				8FF935871A6FDE7800BDE949 /* LaunchScreen.xib in Resources */,
 				8F6E7C701A6FF54000A6D073 /* kesaran.png in Resources */,
+				8FD2353C1A70E71E009F5EAF /* cyber_enemy.png in Resources */,
 				8FF935841A6FDE7800BDE949 /* Images.xcassets in Resources */,
 				8FF9357B1A6FDE7800BDE949 /* TitleScene.sks in Resources */,
 				8FF935821A6FDE7800BDE949 /* Main.storyboard in Resources */,
@@ -257,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8FF9357D1A6FDE7800BDE949 /* GameScene.swift in Sources */,
+				8FD2353E1A70E7B3009F5EAF /* EnemyNode.swift in Sources */,
 				8FF9357F1A6FDE7800BDE949 /* GameViewController.swift in Sources */,
 				8F6E7C6D1A6FEE7B00A6D073 /* PlayerNode.swift in Sources */,
 				8FF935791A6FDE7800BDE949 /* AppDelegate.swift in Sources */,

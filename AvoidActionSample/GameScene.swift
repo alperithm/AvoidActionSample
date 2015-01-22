@@ -35,6 +35,7 @@ class GameScene: SKScene {
     var playerSpeed: CGFloat = PlayerNode.NodeSettings.speed.rawValue
     
     override func didMoveToView(view: SKView) {
+        // プレーヤーのセット
         self.player.position = CGPoint(x: 500, y: 200)
         self.player.name = ObjectName.player.toString()
         self.addChild(player)
@@ -74,6 +75,14 @@ class GameScene: SKScene {
         let newScene = ResultScene(size: self.scene!.size)
         newScene.scaleMode = SKSceneScaleMode.AspectFill
         self.view!.presentScene(newScene)
+    }
+    
+    // 障害物の生成
+    func addEnemy() {
+        // ゲームオーバー時は生成しない
+        if gameStatus != GameStatus.kGameOver.rawValue {
+            
+        }
     }
     
 }
