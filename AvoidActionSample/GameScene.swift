@@ -51,7 +51,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let enemyCategory: UInt32 = 0x1<<1
     
     // 障害物生成ライン本数
-    var enemyLine = 10
+    var enemyLine = 100
     
     // 各インターバル
     var generateInterval: NSTimeInterval = 1
@@ -63,6 +63,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // ステージレベル
     var level = 0
+    
+    // 難易度表記
+    let levelLabel = SKLabelNode(fontNamed:"Copperplate")
     
 /**
 *   処理定義
@@ -76,6 +79,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // プレーヤーのセット
         addPlayer()
+        
+        // 難易度表記
+        levelLabel.text = "LEVEL:\(level)"
+        levelLabel.fontSize = 40
+        levelLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:self.size.height - levelLabel.frame.height * 2)
+        self.addChild(levelLabel)
     }
 
     // タッチ時アクション
@@ -93,8 +102,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // オブジェクト衝突時
     func didBeginContact(contact: SKPhysicsContact) {
-        println("Contct!")
+        
         gameOver()
+    
     }
     
     override func update(currentTime: NSTimeInterval) {
@@ -129,7 +139,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func levelUp() {
         generateInterval *= 3/4
         level++
-        println("Level Up! lv.\(level)")
+        levelLabel.text = "LEVEL:\(level)"
     }
     
 /*
