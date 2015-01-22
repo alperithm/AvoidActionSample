@@ -9,6 +9,4 @@
 
 ■素材提供
 
-「シアンのゆりかご」
-
-http://cyanyurikago.web.fc2.com/
+「シアンのゆりかご」　http://cyanyurikago.web.fc2.com/
